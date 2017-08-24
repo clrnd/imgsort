@@ -7,7 +7,7 @@ use std::path::PathBuf;
 mod options;
 
 
-fn get_format(path: PathBuf) -> Result<image::ImageFormat, String> {
+fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
     let ext = path.extension().and_then(|s| s.to_str())
                   .map_or("".to_string(), |s| s.to_ascii_lowercase());
     match &ext[..] {
@@ -50,7 +50,7 @@ fn main() {
         *pixel = *sorted_pixels[i];
     }
 
-    let mut fout = match File::create(&opts.outpath) {
+    let format = match get_format(&opts.outpath) {
         Ok(f) => f,
         Err(err) => {
             eprintln!("{}", err);
@@ -58,7 +58,7 @@ fn main() {
         }
     };
 
-    let format = match get_format(opts.outpath) {
+    let mut fout = match File::create(&opts.outpath) {
         Ok(f) => f,
         Err(err) => {
             eprintln!("{}", err);
