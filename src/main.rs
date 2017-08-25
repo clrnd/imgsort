@@ -28,11 +28,20 @@ fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
     }
 }
 
+// WHY CANT ORD DAMN
+fn get_key<G>(mode: &options::Mode, p: &G) -> u8
+        where G: image::Pixel<Subpixel=u8> {
+    match mode {
+        &options::Mode::Red => p.channels4().0,
+        &options::Mode::Green => p.channels4().1,
+        &options::Mode::Blue => p.channels4().2,
+    }
+}
+
 fn main() {
     let opts = options::parse();
-    println!("{:?}", opts);
 
-    let img = match image::open(opts.inpath) {
+    let img = match image::open(&opts.inpath) {
         Ok(f) => f,
         Err(err) => {
             eprintln!("{}", err);
@@ -40,11 +49,12 @@ fn main() {
         }
     };
 
+    // XXX use RBGA for everything so YOLO
     let mut buf = img.to_rgba();
 
     let buf2 = buf.clone();
     let mut sorted_pixels: Vec<_> = buf2.pixels().collect();
-    sorted_pixels.sort_by_key(|&p| p.data[2]);
+    sorted_pixels.sort_by_key(|&p| get_key(&opts.mode, p));
 
     for (i, pixel) in buf.pixels_mut().enumerate() {
         *pixel = *sorted_pixels[i];
