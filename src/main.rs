@@ -1,10 +1,13 @@
 extern crate image;
+extern crate palette;
 
 use std::fs::File;
 use std::process;
 use std::ascii::AsciiExt;
 use std::path::PathBuf;
+
 mod options;
+mod sorters;
 
 
 fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
@@ -28,16 +31,6 @@ fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
     }
 }
 
-// WHY CANT ORD DAMN
-fn get_key<G>(mode: &options::Mode, p: &G) -> u8
-        where G: image::Pixel<Subpixel=u8> {
-    match mode {
-        &options::Mode::Red => p.channels4().0,
-        &options::Mode::Green => p.channels4().1,
-        &options::Mode::Blue => p.channels4().2,
-    }
-}
-
 fn main() {
     let opts = options::parse();
 
@@ -49,12 +42,22 @@ fn main() {
         }
     };
 
-    // XXX use RBGA for everything so YOLO
+    let key_fn = match opts.mode {
+        options::Mode::Red => sorters::get_red,
+        options::Mode::Green => sorters::get_green,
+        options::Mode::Blue => sorters::get_blue,
+        options::Mode::Alpha => sorters::get_alpha,
+        options::Mode::Hue => sorters::get_hue,
+        options::Mode::Saturation => sorters::get_sat,
+        options::Mode::Lightness => sorters::get_lig,
+    };
+
+    // Use RBGA for everything so YOLO
     let mut buf = img.to_rgba();
 
     let buf2 = buf.clone();
     let mut sorted_pixels: Vec<_> = buf2.pixels().collect();
-    sorted_pixels.sort_by_key(|&p| get_key(&opts.mode, p));
+    sorted_pixels.sort_by_key(key_fn);
 
     for (i, pixel) in buf.pixels_mut().enumerate() {
         *pixel = *sorted_pixels[i];

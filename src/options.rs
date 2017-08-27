@@ -7,7 +7,11 @@ use std::path::PathBuf;
 pub enum Mode {
     Red,
     Green,
-    Blue
+    Blue,
+    Alpha,
+    Hue,
+    Saturation,
+    Lightness
 }
 
 #[derive(Debug)]
@@ -27,7 +31,8 @@ pub fn parse() -> Options {
             .short("m")
             .takes_value(true)
             .default_value("red")
-            .possible_values(&["red", "green", "blue"]))
+            .possible_values(&["red", "green", "blue", "alpha",
+                               "hue", "sat", "lig"]))
         .arg(Arg::with_name("INFILE")
             .help("Input image")
             .required(true))
@@ -42,6 +47,10 @@ pub fn parse() -> Options {
         "red" => Mode::Red,
         "green" => Mode::Green,
         "blue" => Mode::Blue,
+        "alpha" => Mode::Alpha,
+        "hue" => Mode::Hue,
+        "sat" => Mode::Saturation,
+        "lig" => Mode::Lightness,
         _ => panic!("Shouldn't happen?")
     };
 

@@ -1,9 +1,10 @@
 [package]
 name = "imgsort"
 description = "Sorts pixels for the lolz."
-version = "0.1.0"
+version = "0.1.1"
 authors = ["clrnd <welcometothechango@gmail.com>"]
 
 [dependencies]
 image = "*"
 clap = "~2"
+palette = "~0.2"
