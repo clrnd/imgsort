@@ -1,9 +1,10 @@
 extern crate clap;
 
+use std::ffi::OsString;
 use self::clap::{Arg, App};
 use std::path::PathBuf;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Mode {
     Red,
     Green,
@@ -21,7 +22,7 @@ pub struct Options {
     pub mode: Mode
 }
 
-pub fn parse() -> Options {
+pub fn parse(args: Vec<OsString>) -> Options {
     let matches = App::new(env!("CARGO_PKG_NAME"))
         .version(env!("CARGO_PKG_VERSION"))
         .about(env!("CARGO_PKG_DESCRIPTION"))
@@ -39,7 +40,7 @@ pub fn parse() -> Options {
         .arg(Arg::with_name("OUTFILE")
             .help("Output image")
             .required(true))
-        .get_matches();
+        .get_matches_from(args);
 
     let instr = matches.value_of("INFILE").unwrap();
     let outstr = matches.value_of("OUTFILE").unwrap();

@@ -1,13 +1,17 @@
 extern crate image;
 extern crate palette;
 
-use std::fs::File;
+use std::env;
 use std::process;
+use std::fs::File;
 use std::ascii::AsciiExt;
 use std::path::PathBuf;
 
 mod options;
 mod sorters;
+
+#[cfg(test)]
+mod tests;
 
 
 fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
@@ -31,18 +35,9 @@ fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
     }
 }
 
-fn main() {
-    let opts = options::parse();
-
-    let img = match image::open(&opts.inpath) {
-        Ok(f) => f,
-        Err(err) => {
-            eprintln!("{}", err);
-            process::exit(1);
-        }
-    };
-
-    let key_fn = match opts.mode {
+fn sort_pixels(img: &image::DynamicImage, mode: &options::Mode)
+        -> image::RgbaImage {
+    let key_fn = match *mode {
         options::Mode::Red => sorters::get_red,
         options::Mode::Green => sorters::get_green,
         options::Mode::Blue => sorters::get_blue,
@@ -62,6 +57,22 @@ fn main() {
     for (i, pixel) in buf.pixels_mut().enumerate() {
         *pixel = *sorted_pixels[i];
     }
+
+    buf
+}
+
+fn main() {
+    let opts = options::parse(env::args_os().collect());
+
+    let img = match image::open(&opts.inpath) {
+        Ok(f) => f,
+        Err(err) => {
+            eprintln!("{}", err);
+            process::exit(1);
+        }
+    };
+
+    let buf = sort_pixels(&img, &opts.mode);
 
     let format = match get_format(&opts.outpath) {
         Ok(f) => f,
