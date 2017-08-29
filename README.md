@@ -22,10 +22,24 @@ For now the pixels can be sorted in 7 dimensions:
 For example
 
 ```bash
-imgsort mypic.jpg lol.jpg --mode sat
+imgsort mypic.jpg lol.jpg --mode hue
 ```
 
-will sort the pixels according to their saturation values.
+will sort the pixels according to their hue values.
+
+## Examples
+
+Original:
+
+![Original](/img/pepsi.png?raw=true "Original")
+
+Red sorted:
+
+![Red](/img/pepsi_sorted_red.png?raw=true "Red")
+
+Hue sorted:
+
+![Hue](/img/pepsi_sorted_hue.png?raw=true "Hue")
 
 ## Why
-I was just trying out the language 😬.
+I'm just trying out the language 😁.
