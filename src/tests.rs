@@ -22,7 +22,7 @@ fn parse_options_and_format() {
 
 #[test]
 fn sort_image_red() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Red);
     let data1 = buf1.into_vec();
 
@@ -33,7 +33,7 @@ fn sort_image_red() {
 
 #[test]
 fn sort_image_green() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Green);
     let data1 = buf1.into_vec();
 
@@ -44,7 +44,7 @@ fn sort_image_green() {
 
 #[test]
 fn sort_image_blue() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Blue);
     let data1 = buf1.into_vec();
 
@@ -55,7 +55,7 @@ fn sort_image_blue() {
 
 #[test]
 fn sort_image_alpha() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Alpha);
     let data1 = buf1.into_vec();
 
@@ -66,7 +66,7 @@ fn sort_image_alpha() {
 
 #[test]
 fn sort_image_hue() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Hue);
     let data1 = buf1.into_vec();
 
@@ -77,7 +77,7 @@ fn sort_image_hue() {
 
 #[test]
 fn sort_image_sat() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Saturation);
     let data1 = buf1.into_vec();
 
@@ -88,7 +88,7 @@ fn sort_image_sat() {
 
 #[test]
 fn sort_image_lig() {
-    let img1 = image::open("img/pepsi.jpg").unwrap();
+    let img1 = image::open("img/pepsi.png").unwrap();
     let buf1 = sort_pixels(&img1, &options::Mode::Lightness);
     let data1 = buf1.into_vec();
 
