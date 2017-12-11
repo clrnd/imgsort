@@ -4,7 +4,6 @@ extern crate palette;
 use std::env;
 use std::process;
 use std::fs::File;
-use std::ascii::AsciiExt;
 use std::path::PathBuf;
 
 mod options;
@@ -29,7 +28,7 @@ fn get_format(path: &PathBuf) -> Result<image::ImageFormat, String> {
         "bmp" => Ok(image::ImageFormat::BMP),
         "ico" => Ok(image::ImageFormat::ICO),
         "hdr" => Ok(image::ImageFormat::HDR),
-        "ppm" => Ok(image::ImageFormat::PPM),
+        "pnm" => Ok(image::ImageFormat::PNM),
         format => Err(format!(
             "Image format image/{} is not supported.", format)),
     }

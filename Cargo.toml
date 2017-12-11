@@ -8,6 +8,3 @@ authors = ["clrnd <welcometothechango@gmail.com>"]
 image = "*"
 clap = "~2"
 palette = "~0.2"
-
-[build]
-rustflags = ["-C", "target-cpu=native"]
